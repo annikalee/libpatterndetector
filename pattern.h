@@ -41,7 +41,7 @@ class Request {
 class PatternElem {
     public:
         vector<off_t> seq;
-        int64_t cnt; //count of repeatition
+        int64_t cnt; //count of repetition
         
         PatternElem() {}
         PatternElem( vector<off_t> sq, int ct )
@@ -53,7 +53,7 @@ class PatternElem {
 };
 
 
-// This is used to describ a single repeating
+// This is used to describe a single repeating
 // pattern, but with starting value
 class PatternUnit: public PatternElem {
     public:
@@ -158,14 +158,13 @@ PatternChain<T>::deSerialize( string buf )
         int sizeofheadandunit = sizeof(unitbodysize) + unitbodysize;
         unitbuf.resize(sizeofheadandunit);
         if ( unitbodysize > 0 ) {
-            //TODO:make this more delegate
+            //TODO:make this more delicate
             cur_start -= sizeof(unitbodysize);
             readFromBuf(buf, &unitbuf[0], cur_start, sizeofheadandunit); 
         }
         patunit.deSerialize(unitbuf);
         push(patunit);
     }
-
 }
 
 
@@ -280,16 +279,6 @@ PatternChain<T>::show()
             iter++ )
     {
         showstr << iter->show();
-        /*
-        vector<off_t>::const_iterator off_iter;
-        for ( off_iter = (iter->seq).begin();
-                off_iter != (iter->seq).end();
-                off_iter++ )
-        {
-            cout << *off_iter << ", ";
-        }
-        cout << "^" << iter->cnt << endl;
-        */
     }
     return showstr.str();
 }
@@ -405,6 +394,7 @@ class Tuple {
 
 // Get the pos th element in the pattern
 // pos has to be in the range
+// This is the lookup into the pattern
 template <class T>
 inline
 off_t
@@ -453,7 +443,7 @@ PatternUnit::getValByPos( const int &pos  )
 	}
 
     /* 
-     * The caller should make sure this
+     * The caller should make sure this doesn't happen
      *
     if ( seq.size() == 0 || cnt == 0 || pos < 0 || pos >= seq.size()*cnt ) {
         // that's nothing in seq and you are requesting 
